@@ -3,6 +3,7 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import { useEffect, useRef } from "react";
 import dynamic from "next/dynamic";
 import { useMapStore } from "./store/mapStore"; // Zustand store for global map management
+import { api_getTideHeight } from "./apis/ocean";
 
 const MapComponent = () => {
   const mapRef = useRef(null);
@@ -11,8 +12,7 @@ const MapComponent = () => {
   useEffect(() => {
     const mapboxgl = require("mapbox-gl");
 
-    mapboxgl.accessToken =
-      "pk.eyJ1Ijoic2lyaXRvZWkiLCJhIjoiY2wxNHN4YjJwMDl4bjNsbzdmdnZ4OGg5bCJ9.xS2LGqPIbk3pUibim5g1mA";
+    mapboxgl.accessToken = `${process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}`;
 
     const map = new mapboxgl.Map({
       container: mapRef.current,
@@ -23,6 +23,13 @@ const MapComponent = () => {
     });
 
     setMap(map);
+
+    // Fetch tide height data on component mount
+    const fetchTideHeight = async () => {
+      const tideData = await api_getTideHeight();
+      console.log("Tide data:", tideData);
+    };
+    fetchTideHeight();
   }, [setMap]);
 
   return (
