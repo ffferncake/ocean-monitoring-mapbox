@@ -1,7 +1,8 @@
 import axios from "axios";
 
 export const api_getTideHeight = async () => {
-  const URL = `https://www.khoa.go.kr/api/oceangrid/tideObsPre/search.do?ServiceKey=${process.env.NEXT_PUBLIC_OCEAN_TOKEN}&ObsCode=DT_0001&Date=20241031&ResultType=json`;
+  const selectedDate = 20241101;
+  const URL = `https://www.khoa.go.kr/api/oceangrid/tideObsPre/search.do?ServiceKey=${process.env.NEXT_PUBLIC_OCEAN_TOKEN}&ObsCode=DT_0001&Date=${selectedDate}&ResultType=json`;
   try {
     const { data } = await axios.get(URL, {
       headers: {},
